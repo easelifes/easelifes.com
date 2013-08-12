@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="google-site-verification" content="PY2DYXt49xsdyWQpTQu5vE2sYvHVK4x2EQ7uq_K8HqM" />
+    <meta charset="utf-8">
+    <title><%if(locals.header){%><%-header%><%}else{%>EaseLifes<%}%></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="<%if(locals.header){%><%-header%><%}else{%>EaseLifes<%}%>">
+    <meta name="keywords" content="<%if(locals.keywords){%><%-keywords%><%}else{%>EaseLifes<%}%>">
+    <meta name="author" content="">
+    <!-- Le styles -->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/assets/css/app.css" rel="stylesheet">
+    <style>
+      body { padding-top: 60px; /* 60px to make the container go all the way
+      to the bottom of the topbar */ }
+    </style>
+    <link href="/assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+      </script>
+    <![endif]-->
+    
+    
+
+  </head>
+  <body>
+    <meta charset="utf-8">
+    <title>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Le styles -->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body { padding-top: 60px; /* 60px to make the container go all the way
+      to the bottom of the topbar */ }
+    </style>
+    <link href="/assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+            
+      </script>
+    <![endif]-->
+    
+    <style>
+      #link1 { "data1": "1111", "data2": "2222" }
+    </style>
+    <div class="navbar navbar-fixed-top navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container-fluid title-bg">
+          
+          <div class="nav-collapse">
+            <ul class="nav" style="height:45px">
+              <li>
+                <img src="/images/logo.png" width="40px" style="padding-top:8px">
+              </li>
+              <li style="padding-top:5px" >
+                <a href="/">首頁</a>
+              </li>
+              <li style="padding-top:5px" >
+                <a target="_blank" href="/">Link1</a>
+              </li>
+              <li style="padding-top:5px" >
+                <a target="_blank" href="/">Link2</a>
+              </li>
+            </ul>
+
+            <%//Google Customer Search%>
+            <% include gse %>
+            <%//Sharethis Social Network Link%>
+            <% include sharethis %>
+            
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav" style="padding-top:10px">
+            <div style="height:35px;text-align:left">
+            <gcse:search></gcse:search>
+            </div>
+            <p id="menu" style="padding-top:10px">
+            <% if(session.menu && session.menu.length > 1) { %>
+            <%-session.menu%>
+            <% } else { %>
+            <%-menu%>
+            <% } %>
+            </p>
+          </div>
+        </div>
+            
+          <div class="span9">
+            <div class="row-fluid">
+              <div id="page"><%-body%></div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <style>
+      
+      #link1 {
+          "data1": "1111",
+          "data2": "2222"
+      }
+      
+      .title-bg {
+          background-color:dark;
+      }
+    </style>
+    
+    <textarea id="tmp" style="display:none;text-align:left;font-size:10px;width:800px;height:500px" disabled="disabled"></textarea>
+
+    <script type="text/javascript" src="/wikitpage.js"></script>
+    <script type="text/javascript" src="/javascripts/scale.fix.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery.zclip.min.js"></script>
+    <script type="text/javascript" src="/javascripts/base.js"></script>
+    <script type="text/javascript" src="/javascripts/marked.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="/javascripts/underscore-min.js"></script>
+    
+    </script>
+    <script src="/assets/js/bootstrap.js">
+    </script>
+
+    <%// Google Analysis %>
+    <% include ga %>
+
+    
+  </body>
+</html>

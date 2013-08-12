@@ -1,0 +1,14 @@
+[
+  {
+    "name":"Home",
+    "type": "node",
+    "link":"/"
+  },
+  {
+    "name":"Blog分享",
+    "type": "folder",
+    "nodes": [
+      {"type":"node", "link":"/","name":"Blogger"}
+    ]
+  }
+]
