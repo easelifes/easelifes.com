@@ -11,6 +11,7 @@ var express = require('express')
   , mdutil = require('./lib/mdutil')
   , genrss = require('./lib/gen-rss')
   , gensitemap = require('./lib/gen-sitemap')
+  , cfg = require('./lib/cfg')
 
 var app = express();
 
@@ -34,8 +35,7 @@ app.use(function(req, res, next){
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
-app.use('/examples', express.static(path.join(__dirname, 'examples')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/mdfiles', express.static(path.join(__dirname, 'mdfiles')));
 
 // development only
@@ -59,7 +59,9 @@ app.get('/', getMenu,
     var txt = fs.readFileSync(path, 'utf-8');
     log.info('Got md: ' + path);
     res.render('index', {
-      md: mdutil.md2html(txt)
+      md: mdutil.md2html(txt),
+      header: cfg.site.title,
+      keywords: cfg.site.title
     });
 });
 
