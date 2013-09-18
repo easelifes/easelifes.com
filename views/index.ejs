@@ -1,5 +1,7 @@
+<% if(session['user']) { %>
 <div class="editicon">
-  <img id="editicon" src="/images/edit.png" onclick="document.location='/addwiki?path=<%= locals['path'] || ''%>'"/>
+  <img id="editicon" src="/images/edit.png" onclick="document.location='/addwiki?path=<%=locals['path']||''%>'"/>
 </div>
+<% } %>
 
 <%-md%>

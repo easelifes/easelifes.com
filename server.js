@@ -48,11 +48,15 @@ if ('development' == app.get('env')) {
 function getMenu(req, res, next){
   if(req.session.menu) {
     log.info('Get menu from session...');
+    next();
   } else {
     log.info('Reload the menu...');
-    req.session.menu = mdutil.getMenu();
+    //req.session.menu = mdutil.getMenu();
+    mdutil.getMenu(function(data){
+      req.session.menu = data;
+      next();
+    });
   }
-  next();
 }
 
 app.get('/', getMenu,
@@ -72,22 +76,28 @@ app.get('/', getMenu,
 });
 
 var cache = {};
+exports.cache = cache;
 app.get('/md/:file', getMenu, function(req, res){
   var path = req.params.file;
   if(!cache[path]) {
-    // var txt = fs.readFileSync(path, 'utf-8');
     mdutil.getWiki(path, function(txt){
-      var header = txt.split('\n')[0];
-      var keywords = getKeywords(txt);
-      log.warn(keywords);
-      cache[path] = {txt: txt, header: header };
-      log.info('Got md: ' + path);
-      res.render('index', {
-        md: txt,
-        header: header,
-        keywords: keywords,
-        path: path
-      });
+      if(!txt) {
+        res.render('pagenotfound', {
+          path: path
+        });
+      } else {
+        var header = txt.split('\n')[0];
+        var keywords = getKeywords(txt);
+        log.warn(keywords);
+        cache[path] = {txt: txt, header: header };
+        log.info('Got md: ' + path);
+        res.render('index', {
+          md: txt,
+          header: header,
+          keywords: keywords,
+          path: path
+        });
+      }
     });
   } else {
     log.info('Got md from cache: ' + path);
@@ -98,7 +108,8 @@ app.get('/md/:file', getMenu, function(req, res){
     res.render('index', {
       md: mdutil.md2html(txt),
       header: header,
-      keywords: keywords
+      keywords: keywords,
+      path: path
     });
   }
 });
@@ -106,14 +117,16 @@ app.get('/md/:file', getMenu, function(req, res){
 app.get('/addwiki', getMenu, function(req, res){
   log.info("=======>this is get" );
   var opt = { layout: 'layout' };
+  
   if(req.query.path) 
     opt.path = req.query.path;
+  
   if(req.query.path) 
     mdutil.getWikiTxt(req.query.path, function(data) {
-      if(data) {
+      if(data)
         opt.content = data;
-        res.render('addwiki',opt);
-      }
+      res.render('addwiki',opt);
+
     });
   else
     res.render('addwiki',opt);
@@ -124,8 +137,14 @@ app.post('/addwiki', function(req, res){
   log.info(req.body);
   mdutil.saveWiki(req.body.path, req.body.content, function(err, data){
     if(err) log.error(err);
+    
+    delete cache[req.body.path];
+    
+    if(req.body.path == 'Menu.md')
+      delete req.session['menu'];
+
     res.redirect(util.format('/md/%s', req.body.path));
-  })
+  });
 });
 
 app.post('/login', function(req, res){
