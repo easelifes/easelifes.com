@@ -19,6 +19,7 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+app.set("view options", {layout : true});
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(partials());
@@ -26,6 +27,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
+
 
 app.use(function(req, res, next){
   res.locals.session = req.session;
@@ -56,29 +58,36 @@ function getMenu(req, res, next){
 app.get('/', getMenu,
   function(req, res){
     var path = 'README.md';
-    var txt = fs.readFileSync(path, 'utf-8');
+    //var txt = fs.readFileSync(path, 'utf-8');
     log.info('Got md: ' + path);
-    res.render('index', {
-      md: mdutil.md2html(txt),
-      header: cfg.site.title,
-      keywords: cfg.site.title
+    mdutil.getWiki(path, function(data){
+      res.render('index', {
+        //md: mdutil.md2html(txt),
+        md: data,
+        header: cfg.site.title,
+        keywords: cfg.site.title,
+        path: path
+      });
     });
 });
 
 var cache = {};
 app.get('/md/:file', getMenu, function(req, res){
-  var path = 'mdfiles/' + req.params.file;
+  var path = req.params.file;
   if(!cache[path]) {
-    var txt = fs.readFileSync(path, 'utf-8');
-    var header = txt.split('\n')[0];
-    var keywords = getKeywords(txt);
-    log.warn(keywords);
-    cache[path] = {txt: txt, header: header };
-    log.info('Got md: ' + path);
-    res.render('index', {
-      md: mdutil.md2html(txt),
-      header: header,
-      keywords: keywords
+    // var txt = fs.readFileSync(path, 'utf-8');
+    mdutil.getWiki(path, function(txt){
+      var header = txt.split('\n')[0];
+      var keywords = getKeywords(txt);
+      log.warn(keywords);
+      cache[path] = {txt: txt, header: header };
+      log.info('Got md: ' + path);
+      res.render('index', {
+        md: txt,
+        header: header,
+        keywords: keywords,
+        path: path
+      });
     });
   } else {
     log.info('Got md from cache: ' + path);
@@ -92,6 +101,50 @@ app.get('/md/:file', getMenu, function(req, res){
       keywords: keywords
     });
   }
+});
+
+app.get('/addwiki', getMenu, function(req, res){
+  log.info("=======>this is get" );
+  var opt = { layout: 'layout' };
+  if(req.query.path) 
+    opt.path = req.query.path;
+  if(req.query.path) 
+    mdutil.getWikiTxt(req.query.path, function(data) {
+      if(data) {
+        opt.content = data;
+        res.render('addwiki',opt);
+      }
+    });
+  else
+    res.render('addwiki',opt);
+});
+
+app.post('/addwiki', function(req, res){
+  log.info("body=======>");
+  log.info(req.body);
+  mdutil.saveWiki(req.body.path, req.body.content, function(err, data){
+    if(err) log.error(err);
+    res.redirect(util.format('/md/%s', req.body.path));
+  })
+});
+
+app.post('/login', function(req, res){
+  if(req.body.username == 'admin' && req.body.password == 'password') {
+    req.session.user = {
+      username: req.body.username
+    }
+    res.redirect('/');
+  } else {
+    res.render('error', {
+      layout:'layout',
+      msg: 'Login Error!'
+    });
+  }
+});
+
+app.get('/logout', function(req, res){
+  delete req.session.user;
+  res.redirect('/');
 });
 
 function getKeywords(txt){
@@ -125,6 +178,7 @@ app.post('/flush/:file', getMenu, function(req, res){
 app.get('/rss', function(req, res) {
   res.end(genrss.toRss());
 });
+
 app.get('/rss.xml', function(req, res) {
   res.end(genrss.toRss());
 });

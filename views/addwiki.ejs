@@ -1,0 +1,8 @@
+<h1>Create Wiki Page</h1>
+<form action="/addwiki" method="POST">
+  <div style="width:800px">
+    <div><input type="text" name="path" id="path" style="width:800px" value="<%= locals['path'] || ''%>"/></div>
+    <div><textarea name="content" id="content" style="width:800px;height:500px"><%= locals['content'] || ''%></textarea></div>
+    <div align="right"><input type="submit" value="submit"/></div>
+  </div>
+</form>

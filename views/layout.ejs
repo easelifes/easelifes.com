@@ -134,6 +134,18 @@
     <%// Google Analysis %>
     <% include ga %>
 
+
+    <div id="loginblock" style="display:none;">
+      <form action="/login" method="POST">
+        <div align="center"><h2>登入系統</h2></div>
+        <div>帳號：<input type="text" name="username" id="username"/></div>
+        <div>密碼：<input type="password" name="password" id="password"/></div>
+        <input type="submit" value="Login"/>
+        <input type="button" value="Regist"/>
+      </form>
+    </div>
+
+    
     
   </body>
 </html>
