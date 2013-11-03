@@ -46,13 +46,10 @@
     <![endif]-->
     
     <div class="navbar navbar-fixed-top ">
-
       <div class="span1"></div>
-
       <div class="span10">
-      <img src="/images/logo.png" style="padding-top:8px">
+        <img src="/images/logo.png" style="padding-top:8px">
       </div>
-
       <div class="span1"></div>
     </div>
     
@@ -60,7 +57,6 @@
       <div class="navbar-inner" >
         <div class="span1"></div>
         <div class="container-fluid title-bg" style="wicth:1080px">
-          
           <div class="nav-collapse">
             <ul class="nav" style="height:45px">
               <li style="padding-top:5px" >
@@ -93,41 +89,50 @@
       <div class="row-fluid">
         <div class="span1"></div>
         <div class="span3">
-          <div class="well sidebar-nav" style="padding-top:10px">
-            <div style="height:35px;text-align:left">
-            <gcse:search></gcse:search>
-            </div>
-            <p id="menu" style="padding-top:10px">
-            <% if(session.menu && session.menu.length > 1) { %>
-            <%-session.menu%>
-            <% } else { %>
-            <%-menu%>
-            <% } %>
-            </p>
-          </div>
+          <div class="mdfile" data-wiki-page="main-block1-left.md" data-edit="<%=session['user']%>"></div>
         </div>
-            
-        <div class="span7">
-          <div class="row-fluid">
-            <div id="page"><%-body%></div>
-          </div>
+        <div class="span7" style="border-left:1px solid silver;padding-left:10px">
+          <div class="mdfile" data-wiki-page="main-block1-right.md" data-edit="<%=session['user']%>"></div>
         </div>
-        
         <div class="span1"></div>
       </div>
     </div>
 
-    <style>
-      
-      #link1 {
-          "data1": "1111",
-          "data2": "2222"
-      }
-      
-      .title-bg {
-          background-color:dark;
-      }
-    </style>
+    <div class="container-fluid" style="height:10px"></div>
+
+    <div class="container-fluid" style="background-color:rgb(29, 83, 119);">
+      <div class="row-fluid">
+        <div class="span1"></div>
+        <div class="span10" style="color:white">
+          <div class="mdfile" data-wiki-page="main-block2-all.md" data-edit="<%=session['user']%>"></div>
+        </div>
+        <div class="span1"></div>
+      </div>
+    </div>
+
+    <div class="container-fluid" style="height:500px">
+      <div class="row-fluid">
+        <div class="span1"></div>
+        <div class="span10">
+          <div class="mdfile" data-wiki-page="main-block1-right.md" data-edit="<%=session['user']%>"></div>
+        </div>
+        <div class="span1"></div>
+      </div>
+    </div>
+
+    <div class="container-fluid" style="background-color:rgba(99, 103, 105, 0.180392);">
+      <div class="row-fluid">
+        <div class="span1"></div>
+        <div class="span7">
+          <div class="mdfile" data-wiki-page="footer-right.md" data-edit="<%=session['user']%>"></div>
+        </div>
+        <div class="span3">
+          <div class="mdfile" data-wiki-page="footer-left.md" data-edit="<%=session['user']%>"></div>
+        </div>
+        <div class="span1"></div>
+      </div>
+    </div>
+
     
     <textarea id="tmp" style="display:none;text-align:left;font-size:10px;width:800px;height:500px" disabled="disabled"></textarea>
 

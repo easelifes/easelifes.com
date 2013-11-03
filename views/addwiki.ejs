@@ -1,6 +1,3 @@
-<% if(!session['user']) { %>
-<script>document.location="/"</script>
-<% } else { %>
 <h1>Create Wiki Page</h1>
 <form action="/addwiki" method="POST">
   <div style="width:800px">
@@ -9,4 +6,3 @@
     <div align="right"><input type="submit" value="submit"/></div>
   </div>
 </form>
-<% } %>

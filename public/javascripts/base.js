@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
   $('#show').click(function() { 
     $.blockUI({ 
       message: $('#md'), 
@@ -44,6 +45,14 @@ $(document).ready(function(){
     document.location = '/logout';
   });
 
+  $('.mdfile').each(function(v){
+    if($(this).attr('data-wiki-page')) {
+      var path = $(this).attr('data-wiki-page');
+      $(this).load('/mdonly/'+path);
+      if($(this).attr('data-edit'))
+        $(this).after('<div width="100%" style="text-align:right"><a href="/addwiki?path='+path+'">[edit]</a></div>');
+    } 
+  });
 });
 
 var mkdOpt = {

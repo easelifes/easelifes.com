@@ -66,11 +66,13 @@ app.get('/', getMenu,
     log.info('Got md: ' + path);
     mdutil.getWiki(path, function(data){
       res.render('index', {
+        layout: 'layout-2column',
         //md: mdutil.md2html(txt),
         md: data,
         header: cfg.site.title,
         keywords: cfg.site.title,
-        path: path
+        path: path,
+        mdutil: mdutil
       });
     });
 });
@@ -114,6 +116,46 @@ app.get('/md/:file', getMenu, function(req, res){
   }
 });
 
+app.get('/mdonly/:file', getMenu, function(req, res){
+  var path = req.params.file;
+  if(!cache[path]) {
+    mdutil.getWiki(path, function(txt){
+      if(!txt) {
+        res.render('pagenotfound', {
+          layout: 'empty',
+          path: path
+        });
+      } else {
+        var header = txt.split('\n')[0];
+        var keywords = getKeywords(txt);
+        log.warn(keywords);
+        cache[path] = {txt: txt, header: header };
+        log.info('Got md: ' + path);
+        res.render('index', {
+          layout: 'empty',
+          md: txt,
+          header: header,
+          keywords: keywords,
+          path: path
+        });
+      }
+    });
+  } else {
+    log.info('Got md from cache: ' + path);
+    var txt = cache[path].txt;
+    var header = txt.split('\n')[0];
+    var keywords = getKeywords(txt);
+    log.warn(keywords);
+    res.render('index', {
+      layout: 'empty',
+      md: mdutil.md2html(txt),
+      header: header,
+      keywords: keywords,
+      path: path
+    });
+  }
+});
+
 app.get('/addwiki', getMenu, function(req, res){
   log.info("=======>this is get" );
   var opt = { layout: 'layout' };
@@ -121,15 +163,20 @@ app.get('/addwiki', getMenu, function(req, res){
   if(req.query.path) 
     opt.path = req.query.path;
   
-  if(req.query.path) 
+  if(req.query.path && req.query.path.length > 0) 
     mdutil.getWikiTxt(req.query.path, function(data) {
-      if(data)
+      if(data) {
         opt.content = data;
-      res.render('addwiki',opt);
-
+        res.render('addwiki',opt);
+      } else {
+        res.render('addwiki',opt);
+      }
     });
-  else
+  else {
+    console.log("Render default...");
     res.render('addwiki',opt);
+  }
+    
 });
 
 app.post('/addwiki', function(req, res){
