@@ -9,3 +9,8 @@
     <a target="_self" href="/addwiki">新頁面</a>
   </li>
 </ul>
+<% if (locals.session && locals.session.user && locals.session.user.username == 'admin'){ %>
+<div style="height:45px;color:white;padding-top:13px;padding-right:5px" align="right"><a href="/logout">[LOGOUT]</a></div>
+<% }else {%>
+<div style="height:45px;color:white;padding-top:13px;padding-right:5px" align="right"><a id="loginbar" href="#">[LOGIN]</a></div>
+<% } %>

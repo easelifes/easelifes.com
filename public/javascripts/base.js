@@ -49,8 +49,8 @@ $(document).ready(function(){
     if($(this).attr('data-wiki-page')) {
       var path = $(this).attr('data-wiki-page');
       $(this).load('/mdonly/'+path);
-      if($(this).attr('data-edit'))
-        $(this).after('<div width="100%" style="text-align:right"><a href="/addwiki?path='+path+'">[edit]</a></div>');
+      //if($(this).attr('data-edit'))
+        //$(this).after('<div width="100%" style="text-align:right"><a href="/addwiki?path='+path+'">[edit]</a></div>');
     } 
   });
 });
