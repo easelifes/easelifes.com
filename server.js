@@ -81,7 +81,7 @@ var cache = {};
 exports.cache = cache;
 app.get('/md/:file', getMenu, function(req, res){
   var path = req.params.file;
-  if(!cache[path]) {
+  if(true && !cache[path]) {
     mdutil.getWiki(path, function(txt){
       if(!txt) {
         res.render('pagenotfound', {

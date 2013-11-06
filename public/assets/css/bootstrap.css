@@ -4362,7 +4362,7 @@ input[type="submit"].btn.btn-mini {
   *position: relative;
   *z-index: 2;
   margin-bottom: 20px;
-  overflow: visible;
+  *overflow: visible;
 }
 
 .navbar-inner {
